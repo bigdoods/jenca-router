@@ -44,9 +44,11 @@ tape('router routes a stubbed projects handler', function (t) {
     },
 
     function(next){
-      testServer.close()
-      proxyServer.close()
-      next()
+      testServer.close(next)
+    },
+
+    function(next){
+      proxyServer.close(next)
     }
 
   ], function(err){

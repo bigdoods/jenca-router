@@ -1,0 +1,25 @@
+{
+  "name": "jenca-router",
+  "private": true,
+  "version": "1.0.0",
+  "description": "The front facing HTTP router",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jenca-cloud/jenca-router.git"
+  },
+  "author": "jenca",
+  "license": "APACHE2",
+  "bugs": {
+    "url": "https://github.com/jenca-cloud/jenca-router/issues"
+  },
+  "homepage": "https://github.com/jenca-cloud/jenca-router",
+  "devDependencies": {
+    "concat-stream": "^1.5.1",
+    "hyperquest": "^1.2.0",
+    "tape": "^4.3.0"
+  }
+}

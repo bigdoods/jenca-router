@@ -18,8 +18,12 @@
   },
   "homepage": "https://github.com/jenca-cloud/jenca-router",
   "devDependencies": {
+    "async": "^1.5.0",
     "concat-stream": "^1.5.1",
     "hyperquest": "^1.2.0",
     "tape": "^4.3.0"
+  },
+  "dependencies": {
+    "hyperprox": "^2.3.0"
   }
 }

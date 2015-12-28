@@ -7,27 +7,27 @@ var utils = require('./utils')
 var args = require('minimist')(process.argv, {
   alias:{
     p:'port',
-    c:'config',
-    j:'projects',
-    l:'library'
+    c:'config'
   },
   default:{
     port:process.env.PORT || 80,
-    config:process.env.CONFIG,
-    projects:process.env.PROJECTS_ROUTE,
-    library:process.env.LIBRARY_ROUTE
+    config:process.env.CONFIG
   }
 })
 
+// the route map we pass into the router itself
 args.routes = {}
 
+// load the route map from a file if provided
 if(args.config && fs.existsSync(args.config)){
   args.routes = require(args.config)
 }
 
-utils.ROUTE_NAMES.forEach(function(route_name){
-  if(args[route_name]){
-    args.routes[route_name] = args[route_name]
+// loop the environment variables looking for ROUTE_XXX
+Object.keys(process.env || {}).forEach(function(key){
+  if(key.toLowerCase().indexOf('route_')==0){
+    var parts = key.toLowerCase().split('route_')
+    args.routes[parts[1]] = process.env(key)
   }
 })
 

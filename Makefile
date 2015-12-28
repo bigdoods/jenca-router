@@ -1,6 +1,7 @@
 .PHONY: images test
 
 VERSION = 1.0.0
+ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 # build the docker images - the dev version includes development node modules
 images:
@@ -14,3 +15,9 @@ test:
 	docker run -ti --rm \
 		--entrypoint "node" \
 		jenca-cloud/jenca-router:$(VERSION)-dev test.js
+
+dev:
+	docker run -ti --rm \
+		-v $(ROOT_DIR):/app \
+		--entrypoint "bash" \
+		jenca-cloud/jenca-router:$(VERSION)-dev

@@ -2,37 +2,35 @@ var path = require('path')
 var http = require('http')
 var fs = require('fs')
 var Router = require('./router')
-var utils = require('./utils')
 
 var args = require('minimist')(process.argv, {
   alias:{
     p:'port',
-    c:'config'
+    c:'config',
+    a:'authorize'
   },
   default:{
     port:process.env.PORT || 80,
-    config:process.env.CONFIG
+    config:process.env.CONFIG,
+    authorize:process.env.AUTHORIZE_URL
   }
 })
 
-// the route map we pass into the router itself
-args.routes = {}
-
-// load the route map from a file if provided
-if(args.config && fs.existsSync(args.config)){
-  args.routes = require(args.config)
+// load the file
+if(!args.config){
+  throw new Error('please supply a config argument')
 }
 
-// loop the environment variables looking for ROUTE_XXX
-Object.keys(process.env || {}).forEach(function(key){
-  if(key.toLowerCase().indexOf('route_')==0){
-    var parts = key.toLowerCase().split('route_')
-    args.routes[parts[1]] = process.env(key)
-  }
+if(!fs.existsSync(args.config)){
+  throw new Error('no config file given')
+}
+
+var secureRouter = Router({
+  router:require(args.config),
+  authorize:args.authorize
 })
 
-var router = Router(args)
-var server = http.createServer(router)
+var server = http.createServer(secureRouter)
 
 server.listen(args.port, function(err){
   if(err){

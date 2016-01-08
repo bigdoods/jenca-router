@@ -1,0 +1,2 @@
+FROM jenca-cloud/jenca-router:latest
+RUN npm install

@@ -3,7 +3,8 @@
 VERSION = 1.0.0
 ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
-# build the docker images - the dev version includes development node modules
+# build the docker images
+# the dev version includes development node modules
 images:
 	docker build -t jenca-cloud/jenca-router:latest .
 	docker build -f Dockerfile.dev -t jenca-cloud/jenca-router:latest-dev .

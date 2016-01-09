@@ -1,24 +1,25 @@
-.PHONY: images test
+.PHONY: images test build
 
 VERSION = 1.0.0
+SERVICE = jenca-router
+
 ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 # build the docker images
 # the dev version includes development node modules
 images:
-	docker build -t jenca-cloud/jenca-router:latest .
-	docker build -f Dockerfile.dev -t jenca-cloud/jenca-router:latest-dev .
-	docker rmi jenca-cloud/jenca-router:$(VERSION) jenca-cloud/jenca-router:$(VERSION)-dev
-	docker tag jenca-cloud/jenca-router:latest jenca-cloud/jenca-router:$(VERSION)
-	docker tag jenca-cloud/jenca-router:latest-dev jenca-cloud/jenca-router:$(VERSION)-dev
+	docker build -t jenca-cloud/$(SERVICE):latest .
+	docker build -f Dockerfile.dev -t jenca-cloud/$(SERVICE):latest-dev .
+	docker rmi jenca-cloud/$(SERVICE):$(VERSION) jenca-cloud/$(SERVICE):$(VERSION)-dev
+	docker tag jenca-cloud/$(SERVICE):latest jenca-cloud/$(SERVICE):$(VERSION)
+	docker tag jenca-cloud/$(SERVICE):latest-dev jenca-cloud/$(SERVICE):$(VERSION)-dev
 
 test:
 	docker run -ti --rm \
-		--entrypoint "node" \
-		jenca-cloud/jenca-router:$(VERSION)-dev test.js
+		jenca-cloud/$(SERVICE):$(VERSION) test
 
-dev:
+build:
 	docker run -ti --rm \
-		-v $(ROOT_DIR):/app \
+		-v $(ROOT_DIR)/dist:/app \
 		--entrypoint "bash" \
-		jenca-cloud/jenca-router:$(VERSION)-dev
+		jenca-cloud/$(SERVICE):$(VERSION)-dev

@@ -14,7 +14,7 @@ module.exports = function(config){
   // the routes for our auth services
 
   // e.g. http://1.2.3.4/v1/check
-  var authenticate_route = routes['/v1/auth']
+  var authenticate_route = config.authenticate
 
   // e.g. http://1.2.3.4/v1/authorize
   var authorize_route = config.authorize

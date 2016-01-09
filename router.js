@@ -2,6 +2,7 @@ var async = require('async')
 var Router = require('config-proxy')
 var concat = require('concat-stream')
 var from2 = require('from2-string')
+var hyperquest = require('hyperquest')
 
 module.exports = function(config){
 
@@ -47,7 +48,8 @@ module.exports = function(config){
   // if the error field is set, then the request is denied
   function authorize(data, done){
     var req = hyperquest(authorize_route, {
-      method:'POST'
+      method:'POST',
+      headers:data.headers
     })
 
     var sourceStream = from2(JSON.stringify(data))
@@ -72,23 +74,29 @@ module.exports = function(config){
       },
 
       // write the X-JENCA-USER header
-      function(authdata, next){
-        req.setHeader('X-JENCA-USER', authdata.email)
-        next(authdata)
+      function(authenticate_data, next){
+        req.headers['x-jenca-user'] = authenticate_data.email
+        next(null, authenticate_data)
       },
 
       // contact the authorization service
-      function(authdata, next){
+      function(authenticate_data, next){
         authorize({
           url:req.url,
           headers:req.headers,
-          authdata:authdata
+          data:authenticate_data
         }, next)
       },
 
+      // write the X-JENCA-ACCESS header
+      function(authorize_data, next){
+        req.headers['x-jenca-access'] = authorize_data.access
+        next(null, authorize_data)
+      },
+
       // decide if we can proxy back using the config-proxy
-      function(status, next){
-        if(status.error) return next(status.error)
+      function(authorize_data, next){
+        if(authorize_data.error) return next(authorize_data.error)
         next()
       }
 

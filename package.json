@@ -19,7 +19,7 @@
   "homepage": "https://github.com/jenca-cloud/jenca-router",
   "devDependencies": {},
   "dependencies": {
-    "config-proxy": "^1.1.0",
+    "config-proxy": "^1.2.0",
     "from2-string": "^1.1.0",
     "minimist": "^1.2.0"
   }

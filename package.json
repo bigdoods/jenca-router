@@ -5,7 +5,7 @@
   "description": "The front facing HTTP router",
   "main": "index.js",
   "scripts": {
-    "test": "echo tbc"
+    "test": "node test.js"
   },
   "repository": {
     "type": "git",
@@ -17,8 +17,13 @@
     "url": "https://github.com/jenca-cloud/jenca-router/issues"
   },
   "homepage": "https://github.com/jenca-cloud/jenca-router",
-  "devDependencies": {},
+  "devDependencies": {
+    "async": "^1.5.0",
+    "concat-stream": "^1.5.1",
+    "tape": "^4.3.0"
+  },
   "dependencies": {
+    "hyperquest": "^1.2.0",
     "config-proxy": "^1.2.0",
     "from2-string": "^1.1.0",
     "minimist": "^1.2.0"

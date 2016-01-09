@@ -16,7 +16,7 @@ images:
 
 test:
 	docker run -ti --rm \
-		jenca-cloud/$(SERVICE):$(VERSION) test
+		jenca-cloud/$(SERVICE):$(VERSION)-dev test
 
 build:
 	docker run -ti --rm \

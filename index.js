@@ -11,7 +11,7 @@ var args = require('minimist')(process.argv, {
   },
   default:{
     port:process.env.PORT || 80,
-    config:process.env.CONFIG,
+    config:process.env.CONFIG || path.join(__dirname, 'config.json'),
     authorize:process.env.AUTHORIZE_URL
   }
 })

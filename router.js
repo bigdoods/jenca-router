@@ -86,6 +86,7 @@ module.exports = function(config){
       function(authenticate_data, next){
         authorize({
           url:req.url,
+          method:req.method.toLowerCase(),
           headers:req.headers,
           data:authenticate_data
         }, next)

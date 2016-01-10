@@ -153,11 +153,16 @@ tape('router contacts auth services before proxying', function (t) {
       
     */
     function(next){
-      hyperquest('http://127.0.0.1:8088/v1/projects/project/apples').pipe(concat(function(data){
+      hyperquest('http://127.0.0.1:8088/v1/projects/project/apples', {
+        headers:{
+          'x-test-value':'oranges'
+        }
+      }).pipe(concat(function(data){
         data = data.toString()
 
         t.equal(data, 'projects: bob@bob.com', 'the returned API result has the user')
         t.equal(log.authenticate.url, '/status', 'authenticate url')
+        t.equal(log.authenticate.headers['x-test-value'], 'oranges', 'original headers passed to authenticate')
         t.deepEqual(log.authorize.body.data, {
           loggedIn: true,
           email: 'bob@bob.com'
@@ -171,6 +176,7 @@ tape('router contacts auth services before proxying', function (t) {
         
         next()
       }))
+
     },
 
     function(next){

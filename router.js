@@ -23,10 +23,10 @@ module.exports = function(config){
   // connect to the authenticate service
   // check the status
   // write the X-JENCA-USER header
-  function authenticate(headers, done){
+  function authenticate(data, done){
     var req = hyperquest(authenticate_route, {
       method:'GET',
-      headers:headers
+      headers:data.headers
     })
 
     req.pipe(concat(function(result){
@@ -70,7 +70,10 @@ module.exports = function(config){
 
       // contact the authentication service
       function(next){
-        authenticate(req.headers, next)
+        authenticate({
+          url:req.url,
+          headers:req.headers
+        }, next)
       },
 
       // write the X-JENCA-USER header

@@ -10,7 +10,7 @@ ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 images:
 	docker build -t jenca-cloud/$(SERVICE):latest .
 	docker build -f Dockerfile.dev -t jenca-cloud/$(SERVICE):latest-dev .
-	docker rmi jenca-cloud/$(SERVICE):$(VERSION) jenca-cloud/$(SERVICE):$(VERSION)-dev
+	docker rmi jenca-cloud/$(SERVICE):$(VERSION) jenca-cloud/$(SERVICE):$(VERSION)-dev || true
 	docker tag jenca-cloud/$(SERVICE):latest jenca-cloud/$(SERVICE):$(VERSION)
 	docker tag jenca-cloud/$(SERVICE):latest-dev jenca-cloud/$(SERVICE):$(VERSION)-dev
 

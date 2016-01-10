@@ -1,4 +1,4 @@
-.PHONY: images test build
+.PHONY: images test
 
 VERSION = 1.0.0
 SERVICE = jenca-router
@@ -16,10 +16,5 @@ images:
 
 test:
 	docker run -ti --rm \
+		--entrypoint npm \
 		jenca-cloud/$(SERVICE):$(VERSION)-dev test
-
-build:
-	docker run -ti --rm \
-		-v $(ROOT_DIR)/dist:/app \
-		--entrypoint "bash" \
-		jenca-cloud/$(SERVICE):$(VERSION)-dev

@@ -1,6 +1,6 @@
 .PHONY: images test
 
-VERSION = 1.0.0
+VERSION = 1.1.0
 SERVICE = jenca-router
 
 ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))

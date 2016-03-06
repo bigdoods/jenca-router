@@ -6,6 +6,10 @@ var hyperquest = require('hyperquest')
 
 module.exports = function(config){
 
+  config.map = function(route){
+    return route.replace(/^tcp:\/\//, 'http://')
+  }
+  
   // create a config-proxy using our config file
   var router = Router(config.router)
 

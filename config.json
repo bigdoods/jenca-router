@@ -1,9 +1,9 @@
 {
   "routes":{
-    "/v1/gui":"env:GUI_URL",
-    "/v1/library":"env:LIBRARY_URL",
-    "/v1/projects":"env:PROJECTS_URL",
-    "/v1/auth":"env:AUTHENTICATE_URL"
+    "/v1/gui":"env:GUI_PORT",
+    "/v1/library":"env:LIBRARY_PORT",
+    "/v1/projects":"env:PROJECTS_PORT",
+    "/v1/auth":"env:AUTHENTICATE_PORT"
   },
   "default":"/v1/gui"
 }

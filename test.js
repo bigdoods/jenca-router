@@ -49,7 +49,7 @@ tape('router processes tcp routes from the environment', function (t) {
     router:require(path.join(__dirname, 'config.json')),
   })
 
-  t.equal(router.routes['/v1/gui/'], 'http://1.2.3.4:5678')
+  t.equal(router.routes['/v1/gui'], 'http://1.2.3.4:5678')
 
   t.end()
 

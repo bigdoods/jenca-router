@@ -18,7 +18,14 @@ module.exports = function(config){
 
   console.log('-------------------------------------------');
   console.log('jenca routing table')
+  console.log('')
+  console.log('authenticate: ' + config.authenticate)
+  console.log('authorize: ' + config.authorize)
+  console.log('routes:')
   console.dir(routes)
+  console.log('')
+  console.log('config:')
+  console.dir(config)
 
   // the routes for our auth services
 
@@ -32,17 +39,31 @@ module.exports = function(config){
   // check the status
   // write the X-JENCA-USER header
   function authenticate(data, done){
+
+    var headers = Object.assign({}, data.headers, {
+      'Content-Type': 'application/json'
+    })
+
     var req = hyperquest(authenticate_route, {
       method:'GET',
-      headers:data.headers
+      headers:headers
     })
 
     req.pipe(concat(function(result){
-      result = JSON.parse(result.toString())
+      console.log('have result from authenticate call:')
+      console.log(result.toString())
+      try {
+        result = JSON.parse(result.toString())
+      } catch (e){
+        return done(e.toString())
+      }
+      
       done(null, result)
     }))
 
     req.on('error', function(err){
+      console.error('authenticate call error:')
+      console.error(err.toString())
       done(err.toString())
     })
   }
@@ -62,7 +83,14 @@ module.exports = function(config){
 
     var sourceStream = from2(JSON.stringify(data))
     var destStream = concat(function(result){
-      result = JSON.parse(result.toString())
+      console.log('have result from authorize call:')
+      console.log(result.toString())
+      try{
+        result = JSON.parse(result.toString())  
+      } catch (e){
+        return done(e.toString())
+      }
+
       done(null, result)
     })
 
@@ -86,7 +114,7 @@ module.exports = function(config){
 
       // write the X-JENCA-USER header
       function(authenticate_data, next){
-        req.headers['x-jenca-user'] = authenticate_data.email
+        req.headers['x-jenca-user'] = authenticate_data.email || 'unknown'
         next(null, authenticate_data)
       },
 
@@ -102,7 +130,7 @@ module.exports = function(config){
 
       // write the X-JENCA-ACCESS header
       function(authorize_data, next){
-        req.headers['x-jenca-access'] = authorize_data.access
+        req.headers['x-jenca-access'] = authorize_data.access || 'unknown'
         next(null, authorize_data)
       },
 

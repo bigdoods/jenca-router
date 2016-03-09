@@ -7,12 +7,14 @@ var args = require('minimist')(process.argv, {
   alias:{
     p:'port',
     c:'config',
-    a:'authorize'
+    z:'authorize',
+    n:'authenticate'
   },
   default:{
     port:process.env.PORT || 80,
     config:process.env.CONFIG || path.join(__dirname, 'config.json'),
-    authorize:process.env.AUTHORIZE_URL
+    authenticate:process.env.AUTHENTICATION_PORT.replace(/^tcp:/, 'http:') + '/status',
+    authorize:process.env.AUTHORIZATION_PORT.replace(/^tcp:/, 'http:') + '/v1/access'
   }
 })
 
@@ -27,6 +29,7 @@ if(!fs.existsSync(args.config)){
 
 var secureRouter = Router({
   router:require(args.config),
+  authenticate:args.authenticate,
   authorize:args.authorize
 })
 

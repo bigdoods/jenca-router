@@ -16,6 +16,10 @@ module.exports = function(config){
   // get the processed routes back from the config-proxy
   var routes = router.routes()
 
+  console.log('-------------------------------------------');
+  console.log('jenca routing table')
+  console.dir(routes)
+
   // the routes for our auth services
 
   // e.g. http://1.2.3.4/v1/check

@@ -4,7 +4,7 @@ var Router = require('./router')
 var http = require('http')
 var hyperquest = require('hyperquest')
 var concat = require('concat-stream')
-
+var path = require('path')
 /*
 
   return a http server with start and stop commands
@@ -41,6 +41,19 @@ function apiServer(port, routes){
     handler(req, res)
   }) 
 }
+
+tape('router processes tcp routes from the environment', function (t) {
+  process.env.GUI_PORT = 'tcp://1.2.3.4:5678'
+
+  var router = Router({
+    router:require(path.join(__dirname, 'config.json')),
+  })
+
+  t.equal(router.routes['/v1/gui'], 'http://1.2.3.4:5678')
+
+  t.end()
+
+})
 
 tape('router contacts auth services before proxying', function (t) {
 

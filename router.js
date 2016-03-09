@@ -122,5 +122,7 @@ module.exports = function(config){
     })
   }
 
+  secureRouter.routes = routes
+
   return secureRouter
 }

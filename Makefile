@@ -10,12 +10,8 @@ ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 # the dev version includes development node modules
 images:
 	docker build -t $(HUBACCOUNT)/$(SERVICE):latest .
-	docker build -f Dockerfile.dev -t $(HUBACCOUNT)/$(SERVICE):latest-dev .
-	docker rmi $(HUBACCOUNT)/$(SERVICE):$(VERSION) $(HUBACCOUNT)/$(SERVICE):$(VERSION)-dev || true
+	docker rmi $(HUBACCOUNT)/$(SERVICE):$(VERSION) || true
 	docker tag $(HUBACCOUNT)/$(SERVICE):latest $(HUBACCOUNT)/$(SERVICE):$(VERSION)
-	docker tag $(HUBACCOUNT)/$(SERVICE):latest-dev $(HUBACCOUNT)/$(SERVICE):$(VERSION)-dev
 
 test:
-	docker run -ti --rm \
-		--entrypoint npm \
-		$(HUBACCOUNT)/$(SERVICE):$(VERSION)-dev test
+	@echo "nginx router"

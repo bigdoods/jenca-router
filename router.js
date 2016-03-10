@@ -10,8 +10,14 @@ module.exports = function(config){
     return (route || '').replace(/^tcp:\/\//, 'http://')
   }
   
+  var routerConfig = Object.assign({}, config.router)
+  routerConfig.handler = function(req, backend, cb){
+    processRequest(req, function(err){
+      cb(err, backend)
+    })
+  }
   // create a config-proxy using our config file
-  var router = Router(config.router)
+  var router = Router(routerConfig)
 
   // get the processed routes back from the config-proxy
   var routes = router.routes()
@@ -26,6 +32,10 @@ module.exports = function(config){
   console.log('')
   console.log('config:')
   console.dir(config)
+
+  router.backends.on('route', function(req, address){
+    console.log(req.url + ' -> ' + address)
+  })
 
   // the routes for our auth services
 
@@ -101,7 +111,8 @@ module.exports = function(config){
     })
   }
 
-  function secureRouter(req, res){
+  function processRequest(req, done){
+
     async.waterfall([
 
       // contact the authentication service
@@ -140,14 +151,22 @@ module.exports = function(config){
         next()
       }
 
-    ], function(err){
+    ], done)
+  }
+
+  function secureRouter(req, res){
+
+    router(req, res)
+    /*
+    processRequest(req, function(err){
       if(err){
         res.statusCode = 500
         res.end(err.toString())
         return
       }
       router(req, res)
-    })
+    })*/
+    
   }
 
   secureRouter.routes = routes

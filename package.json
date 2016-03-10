@@ -24,7 +24,7 @@
     "async": "^1.5.0",
     "concat-stream": "^1.5.1",
     "hyperquest": "^1.2.0",
-    "config-proxy": "^1.5.0",
+    "config-proxy": "^1.7.0",
     "from2-string": "^1.1.0",
     "minimist": "^1.2.0"
   }

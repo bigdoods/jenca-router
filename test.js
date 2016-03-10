@@ -180,12 +180,12 @@ tape('router contacts auth services before proxying', function (t) {
           loggedIn: true,
           email: 'bob@bob.com'
         }, 'authenticate response')
-        t.deepEqual(log.authorize.body.url, '/v1/projects/project/apples', 'the authorize url')
+        t.deepEqual(log.authorize.body.url, '/project/apples', 'the authorize url')
         t.deepEqual(log.authorize.body.headers['x-test-value'], 'oranges', 'the authorize headers')  
         t.deepEqual(log.authorize.body.method, 'get', 'the authorize method')  
         t.equal(log.authorize.url, '/v1/access', 'authorize url')
         t.equal(log.authorize.headers['x-jenca-user'], 'bob@bob.com', 'authorize user')
-        t.deepEqual(log.authorize.body.url, '/v1/projects/project/apples', 'authorize user url')
+        t.deepEqual(log.authorize.body.url, '/project/apples', 'authorize user url')
         t.equal(log.projects.url, '/v1/project/apples', 'projects url')
         t.equal(log.projects.headers['x-jenca-user'], 'bob@bob.com', 'projects user')
         t.equal(log.projects.headers['x-jenca-access'], 'abc', 'projects access')
